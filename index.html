@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XD Bot</title>
+
+<style>
+body {
+  margin: 0;
+  background: black;
+  color: white;
+  font-family: Arial;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* Background particles */
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+/* Glass container */
+.container {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+
+  padding: 40px 60px;
+
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(12px);
+
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.1);
+
+  box-shadow: 0 0 30px rgba(255,255,255,0.1);
+
+  max-width: 600px;
+  width: 90%;
+}
+
+/* Title */
+h1 {
+  font-size: 2.5rem;
+  text-shadow: 0 0 10px white;
+  margin: 0;
+}
+
+/* Subtitle */
+p {
+  color: #aaa;
+  margin: 10px 0 20px;
+}
+
+/* Button group */
+.btn-group {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 12px 25px;
+  margin: 10px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: white;
+  transition: 0.2s ease;
+
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.btn:hover {
+  box-shadow: 0 0 20px white;
+}
+
+/* Status */
+.status {
+  margin-top: 15px;
+}
+
+/* Commands */
+.commands {
+  margin-top: 60px;
+  text-align: center;
+}
+
+.commands h2 {
+  text-shadow: 0 0 10px white;
+}
+
+.cmd {
+  margin: 8px;
+  transition: 0.2s;
+}
+
+.cmd:hover {
+  color: #22c55e;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="bg"></canvas>
+
+<div class="container">
+  <h1>🤖 XD Discord Bot</h1>
+  <p>Moderation • AutoMod • Fast & Fun</p>
+
+  <div class="btn-group">
+    <a class="btn" href="https://discord.com/oauth2/authorize?client_id=1305780094937337906&permissions=4503601775103046&integration_type=0&scope=bot+applications.commands" target="_blank">
+      ➕ Invite Bot
+    </a>
+
+    <a class="btn" href="https://discord.gg/WatHVxXsq5" target="_blank">
+      💬 Support Server
+    </a>
+  </div>
+
+  <div class="status">
+    🟢 Bot Status: Online
+  </div>
+</div>
+
+<div class="commands">
+  <h2>⚙️ Commands</h2>
+  <div class="cmd">/kick - Kick user</div>
+  <div class="cmd">/ban - Ban user</div>
+  <div class="cmd">/clear - Clear messages</div>
+  <div class="cmd">/warn - Warn user</div>
+  <div class="cmd">/ping - Check latency</div>
+  <div class="cmd">/avatar -  Shows avatar</div>
+  <div class="cmd">/userinfo -Shows userinfo</div>
+</div>
+
+<script>
+// PARTICLES
+const canvas = document.getElementById("bg");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+for (let i = 0; i < 80; i++) {
+  particles.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height
+  });
+}
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  particles.forEach(p => {
+    ctx.fillStyle = "white";
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+    ctx.fill();
+
+    particles.forEach(p2 => {
+      let dx = p.x - p2.x;
+      let dy = p.y - p2.y;
+      let dist = Math.sqrt(dx * dx + dy * dy);
+
+      if (dist < 100) {
+        ctx.strokeStyle = "rgba(255,255,255,0.1)";
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(p2.x, p2.y);
+        ctx.stroke();
+      }
+    });
+
+    p.x += (Math.random() - 0.5) * 0.5;
+    p.y += (Math.random() - 0.5) * 0.5;
+  });
+
+  requestAnimationFrame(draw);
+}
+
+draw();
+
+window.addEventListener("resize", () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+
+// MAGNETIC BUTTONS
+const buttons = document.querySelectorAll(".btn");
+
+buttons.forEach(btn => {
+  btn.addEventListener("mousemove", (e) => {
+    const rect = btn.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+
+    btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+  });
+
+  btn.addEventListener("mouseleave", () => {
+    btn.style.transform = "translate(0, 0)";
+  });
+});
+</script>
+
+</body>
+</html>
