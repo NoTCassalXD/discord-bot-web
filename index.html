@@ -11,10 +11,15 @@ body {
   background: black;
   color: white;
   font-family: Arial;
-  overflow-x: hidden;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  min-height: 100vh;
 }
 
-/* ✅ FIXED CANVAS (background only) */
+/* Canvas background */
 canvas {
   position: fixed;
   top: 0;
@@ -22,29 +27,52 @@ canvas {
   z-index: 0;
 }
 
-/* ✅ CONTENT ABOVE CANVAS */
+/* MAIN GLASS CARD */
 .container {
   position: relative;
   z-index: 2;
   text-align: center;
-  margin-top: 100px;
 
-  background: rgba(255, 255, 255, 0.06);
+  margin-top: 80px;
+
+  padding: 40px 60px;
+
+  background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 
-  padding: 40px;
   border-radius: 20px;
-  display: inline-block;
-
-  box-shadow: 0 0 40px rgba(255,255,255,0.1);
   border: 1px solid rgba(255,255,255,0.1);
+
+  box-shadow: 0 0 30px rgba(255,255,255,0.1);
+
+  max-width: 600px;
+  width: 90%;
 }
 
-/* Neon Title */
+/* REMOVE ANY INNER BACKGROUND */
+h1, p, .status, .btn {
+  background: transparent !important;
+}
+
+/* Title */
 h1 {
-  font-size: 3rem;
+  font-size: 2.8rem;
+  margin: 0;
   text-shadow: 0 0 10px white, 0 0 20px white;
+}
+
+/* Subtitle */
+p {
+  color: #aaa;
+  margin: 10px 0 20px;
+}
+
+/* BUTTON GROUP */
+.btn-group {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 /* Buttons */
@@ -57,19 +85,14 @@ h1 {
   color: white;
   transition: 0.2s ease;
 
-  position: relative;
-  box-shadow: 0 0 15px rgba(255,255,255,0.2);
-}
-
-.btn:hover {
-  box-shadow: 0 0 25px white;
+  border: 1px solid rgba(255,255,255,0.2);
 }
 
 .invite { background: #5865f2; }
 .server { background: #22c55e; }
 
 .btn:hover {
-  transform: scale(1.1);
+  transform: scale(1.05);
   box-shadow: 0 0 20px white;
 }
 
@@ -79,11 +102,11 @@ h1 {
   font-size: 18px;
 }
 
-/* Commands */
+/* Commands section */
 .commands {
   position: relative;
   z-index: 2;
-  margin-top: 80px;
+  margin-top: 60px;
   text-align: center;
 }
 
@@ -92,14 +115,13 @@ h1 {
 }
 
 .cmd {
-  margin: 10px;
+  margin: 8px;
   font-size: 18px;
-  transition: 0.3s;
+  transition: 0.2s;
 }
 
 .cmd:hover {
   color: #22c55e;
-  transform: scale(1.05);
 }
 </style>
 </head>
@@ -110,16 +132,17 @@ h1 {
 
 <div class="container">
   <h1>🤖 XD Bot</h1>
-  <p style="color: #aaa;">Moderation • AutoMod • Fast & Fun</p>
+  <p>Moderation • AutoMod • Fast & Fun</p>
 
-  <!-- 🔥 PUT YOUR REAL LINKS HERE -->
-  <a class="btn invite" href="https://discord.com/oauth2/authorize?client_id=1305780094937337906&permissions=4503601775103046&integration_type=0&scope=bot+applications.commands" target="_blank">
-    ➕ Invite Bot
-  </a>
+  <div class="btn-group">
+    <a class="btn invite" href="https://discord.com/oauth2/authorize?client_id=1305780094937337906&permissions=4503601775103046&integration_type=0&scope=bot+applications.commands" target="_blank">
+      ➕ Invite Bot
+    </a>
 
-  <a class="btn server" href="https://discord.gg/WatHVxXsq5" target="_blank">
-    💬 Support Server
-  </a>
+    <a class="btn server" href="https://discord.gg/WatHVxXsq5" target="_blank">
+      💬 Support Server
+    </a>
+  </div>
 
   <div class="status">
     🟢 Bot Status: Online
@@ -138,6 +161,7 @@ h1 {
 </div>
 
 <script>
+// PARTICLES
 const canvas = document.getElementById("bg");
 const ctx = canvas.getContext("2d");
 
@@ -183,6 +207,14 @@ function draw() {
   requestAnimationFrame(draw);
 }
 
+draw();
+
+window.addEventListener("resize", () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+
+// MAGNETIC BUTTONS
 const buttons = document.querySelectorAll(".btn");
 
 buttons.forEach(btn => {
@@ -197,13 +229,6 @@ buttons.forEach(btn => {
   btn.addEventListener("mouseleave", () => {
     btn.style.transform = "translate(0, 0)";
   });
-});
-
-draw();
-
-window.addEventListener("resize", () => {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
 });
 </script>
 
